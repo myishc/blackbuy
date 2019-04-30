@@ -3,6 +3,7 @@
 //导入需要的模块/组件
 import Vue from 'vue'
 import App from './App.vue'
+import './assets/statics/site/css/style.css'
 
 Vue.config.productionTip = false
 
