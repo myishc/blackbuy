@@ -39,35 +39,35 @@
             <ul>
               <li class="index">
                 <!-- <a href="#" class> -->
-                <router-link to='/index'>
+                <router-link to='/index' class="">
                   <span class="out" style="top: 0px;">首页</span>
                 </router-link>
                 <!-- </a> -->
               </li>
               <li class="news">
-                <a href="#" class>
+                <router-link to='#'>
                   <span class="out" style="top: 0px;">每日精选</span>
-                </a>
+                 </router-link>
               </li>
               <li class="photo">
-                <a href="#" class>
+                <router-link to='#'>
                   <span class="out" style="top: 0px;">秒杀专区</span>
-                </a>
+                 </router-link>
               </li>
               <li class="video">
-                <a href="#" class>
+                <router-link to='#'>
                   <span class="out" style="top: 0px;">黑马超市</span>
-                </a>
+                 </router-link>
               </li>
               <li class="down">
-                <a href="#" class>
+                <router-link to='#'>
                   <span class="out" style="top: 0px;">会员权益</span>
-                </a>
+                 </router-link>
               </li>
               <li class="goods">
-                <a href class="router-link-exact-active">
+                 <router-link to='#'>
                   <span class="out" style="top: 0px;">购物商城</span>
-                </a>
+                 </router-link>
               </li>
             </ul>
           </div>
