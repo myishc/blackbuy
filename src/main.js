@@ -1,13 +1,9 @@
 
 
-//导入需要的模块
+//导入vue的模块
 import Vue from 'vue'
-
 //导入头部底部公共样式
 import './assets/statics/site/css/style.css'
-//导入组件
-import App from './App.vue'
-import index from './components/index.vue'
 Vue.config.productionTip = false
 
 //导入element-ui
@@ -17,12 +13,17 @@ Vue.use(ElementUI);
 
 
 
+//导入组件
+import App from './App.vue'
+import index from './components/index.vue'
+import details from './components/details.vue'
 //导入vue-router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 //设置路由地址
 const routes=[
-  {path: '/index', component: index}
+  {path: '/index', component: index},
+  {path: '/details', component: details}
 ]
 
 //实例路由对象

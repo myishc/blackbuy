@@ -148,7 +148,8 @@
         <div class="wrap-box">
           <ul class="img-list">
             <li v-for="(it, x) in item.datas" :key="x">
-              <a href="#/site/goodsinfo/87" class>
+              <!-- <a href="#/site/goodsinfo/87" class> -->
+              <router-link to="/details">
                 <div class="img-box">
                   <img
                     :src="it.img_url"
@@ -167,7 +168,8 @@
                     </span>
                   </p>
                 </div>
-              </a>
+              </router-link>
+              <!-- </a> -->
             </li>
           </ul>
         </div>

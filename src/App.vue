@@ -1,11 +1,12 @@
 <template>
   <div>
+    <!-- //头部 -->
     <div class="header">
       <!-- 1.0 导航栏头部 -->
       <div class="head-top">
         <div class="section">
           <div class="left-box">
-            <span>黑马买买买</span>
+            <span>黑买</span>
             <a target="_blank" href="#"></a>
             <a target="_blank" href="#"></a>
           </div>
@@ -90,6 +91,7 @@
       </div>
     </div>
     <router-view></router-view>
+    <!-- 底部 -->
     <div class="footer">
       <div class="section">
         <div class="foot-nav">
