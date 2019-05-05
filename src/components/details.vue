@@ -16,7 +16,7 @@
               <div class="pic-box">
                 <el-carousel trigger="click" height="312px">
                   <el-carousel-item v-for="(item,index) in imglist" :key="index">
-                    <img :src="item.thumb_path" alt="">
+                    <img :src="item.thumb_path" alt>
                   </el-carousel-item>
                 </el-carousel>
               </div>
@@ -46,13 +46,12 @@
                     <dt>购买数量</dt>
                     <dd>
                       <div class="stock-box">
-                        <el-input-number 
-                          v-model="num" 
-                          :min="1" 
-                          :max="goodsinfo.stock_quantity" 
-                          label="描述文字">
-                        </el-input-number>
-                      
+                        <el-input-number
+                          v-model="num"
+                          :min="1"
+                          :max="goodsinfo.stock_quantity"
+                          label="描述文字"
+                        ></el-input-number>
                       </div>
                       <span class="stock-txt">
                         库存
@@ -86,8 +85,8 @@
                   </li>
                 </ul>
               </div>
-              <div class="tab-content entry" v-show="index==1"  v-html="goodsinfo.content"></div>
-              <div class="tab-content"  v-show="index==2">
+              <div class="tab-content entry" v-show="index==1" v-html="goodsinfo.content"></div>
+              <div class="tab-content" v-show="index==2">
                 <div class="comment-box">
                   <div id="commentForm" name="commentForm" class="form-box">
                     <div class="avatar-box">
@@ -101,6 +100,7 @@
                           sucmsg=" "
                           data-type="*10-1000"
                           nullmsg="请填写评论内容！"
+                          v-model.trim="message"
                         ></textarea>
                         <span class="Validform_checktip"></span>
                       </div>
@@ -111,7 +111,7 @@
                           type="submit"
                           value="提交评论"
                           class="submit"
-                          @click='addComment'
+                          @click="addComment"
                         >
                         <span class="Validform_checktip"></span>
                       </div>
@@ -119,10 +119,10 @@
                   </div>
                   <ul id="commentList" class="list-box">
                     <p
-                      v-show='commentlist==[]'
+                      v-show="commentlist==[]"
                       style="margin: 5px 0px 15px 69px; line-height: 42px; text-align: center; border: 1px solid rgb(247, 247, 247);"
                     >暂无评论，快来抢沙发吧！</p>
-                    <li v-for="(item, index) in commentlist" :key="index" >
+                    <li v-for="(item, index) in commentlist" :key="index">
                       <div class="avatar-box">
                         <i class="iconfont icon-user-full"></i>
                       </div>
@@ -136,11 +136,13 @@
                     </li>
                   </ul>
                   <div class="page-box" style="margin: 5px 0px 0px 62px;">
-                    <div id="pagination" class="digg">
-                      <span class="disabled">« 上一页</span>
-                      <span class="current">1</span>
-                      <span class="disabled">下一页 »</span>
-                    </div>
+                    <el-pagination
+                      @current-change="handleCurrentChange"
+                      :current-page.sync="pageIndex"
+                      :page-size="pageSize"
+                      layout="prev, pager, next, jumper"
+                      :total="totalComment"
+                    ></el-pagination>
                   </div>
                 </div>
               </div>
@@ -153,12 +155,14 @@
                 <ul class="side-img-list">
                   <li v-for="(item, index) in hotgoodslist" :key="index">
                     <div class="img-box">
-                      <a href="#/site/goodsinfo/90" class>
+                      <!-- <a href="#/site/goodsinfo/90" class> -->
+                      <router-link :to="'/details/'+item.id">
                         <img :src="item.img_url">
-                      </a>
+                      </router-link>
+                      <!-- </a> -->
                     </div>
                     <div class="txt-box">
-                      <a href="#/site/goodsinfo/90" class>{{ item.title }}</a>
+                      <router-link :to="'/details/'+item.id">{{ item.title }}</router-link>
                       <span>{{ item.add_time | formatTime }}</span>
                     </div>
                   </li>
@@ -169,11 +173,12 @@
         </div>
       </div>
     </div>
+    <!-- <el-button :plain="true"></el-button> -->
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 export default {
   name: "details",
   data() {
@@ -184,57 +189,90 @@ export default {
       commentlist: [],
       num: 1,
       index: 1,
-      pageIndex: 1
+      pageIndex: 1,
+      pageSize: 10,
+      totalComment: 0,
+      message: ""
     };
   },
   methods: {
-    addComment(){
-      this.$axios.post(`/site/validate/comment/post/goods/102`)
-    }
-  },
-  created() {
-    // console.log(this.$route.params.id);
-    const id = this.$route.params.id;
-    this.$axios
-      .get(`/site/goods/getgoodsinfo/${id}`)
-      .then(res => {
+    getComment() {
+      this.$axios
+        .get(
+          `/site/comment/getbypage/goods/${this.$route.params.id}?pageIndex=${
+            this.pageIndex
+          }&pageSize=${this.pageSize}`
+        )
+        .then(res => {
+          // console.log(res);
+          this.commentlist = res.data.message
+          this.totalComment= res.data.totalcount
+        });
+    },
+    getProductDetails(id) {
+      this.$axios.get(`/site/goods/getgoodsinfo/${id}`).then(res => {
         // console.log(res);
         this.goodsinfo = res.data.message.goodsinfo;
         this.hotgoodslist = res.data.message.hotgoodslist;
         this.imglist = res.data.message.imglist;
       });
-    
-    this.$axios.get(`/site/comment/getbypage/goods/102?pageIndex=${this.pageIndex}&pageSize=5`)
-    .then(res=>{
-      // console.log(res);
-      this.commentlist = res.data.message
-    })
+    },
+    addComment() {
+      if(this.message==''){
+        this.$message.warning('请输入内容');
+        return
+      }
+      this.$axios.post(`/site/validate/comment/post/goods/${this.$route.params.id}`,{
+        commenttxt: this.message
+      }).then(res=>{
+        // console.log(res);
+        this.$message.success(res.data.message)
+        this.getComment()
+      });
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.pageIndex = val
+      this.getComment()
+    }
+  },
+  created() {
+    const id = this.$route.params.id;
+    this.getProductDetails(id);
+    this.getComment();
   },
   filters: {
     // formatTime(val) {
     //   return moment(val).format(`YYYY年MM月DD日`)
     // },
-    formatCommentTime(val){
-      return moment(val).format(`YYYY年MM月DD日HH:mm`)
+    formatCommentTime(val) {
+      return moment(val).format(`YYYY年MM月DD日HH:mm`);
+    }
+  },
+  //监听器
+  watch: {
+    "$route.params.id"(nv) {
+      this.getProductDetails(nv);
+      this.getComment();
     }
   }
 };
 </script>
 
 <style>
-.pic-box{
+.pic-box {
   width: 300px;
   padding: 0 50px;
 }
-.pic-box img{
+.pic-box img {
   width: 100%;
   height: 100%;
 }
 
-.pic-box ul li{
+.pic-box ul li {
   width: 10px;
 }
-.pic-box ul li button{
+.pic-box ul li button {
   width: 100%;
 }
 

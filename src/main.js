@@ -15,6 +15,10 @@ Vue.use(ElementUI);
 import App from './App.vue'
 import index from './components/index.vue'
 import details from './components/details.vue'
+import vipCenter from './components/vipCenter.vue'
+import userCenter from './components/userCenter.vue'
+import dealOrder from './components/dealOrder.vue'
+import orderDetail from './components/orderDetail.vue'
 //导入vue-router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -22,7 +26,16 @@ Vue.use(VueRouter)
 const routes=[
   {path: '/', redirect: '/index'},
   {path: '/index', component: index},
-  {path: '/details/:id', component: details}
+  {path: '/details/:id', component: details},
+  {path: '/vipCenter', component: vipCenter,
+  //嵌套路由
+    children: [
+      {path: '', redirect: 'userCenter'},
+      {path: 'userCenter', component: userCenter},
+      {path: 'dealOrder', component: dealOrder},
+      {path: 'orderDetail', component: orderDetail}
+    ]
+  },
 ]
 
 //实例路由对象
