@@ -23,7 +23,7 @@ Vue.use(VueRouter)
 //设置路由地址
 const routes=[
   {path: '/index', component: index},
-  {path: '/details', component: details}
+  {path: '/details/:id', component: details}
 ]
 
 //实例路由对象
