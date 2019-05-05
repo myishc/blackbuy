@@ -31,12 +31,14 @@ const router = new VueRouter({
 }) 
 //抽取通用模块到vue原型
 import axios from 'axios'
-import moment from "moment";
 Vue.prototype.$axios = axios
-Vue.prototype.$moment = moment
 //设置基地址
 axios.defaults.baseURL  = 'http://111.230.232.110:8899'
-
+//抽取过滤器
+import moment from "moment"
+Vue.filter('formatTime', value=>{
+    return moment(value).format('YYYY年MM月DD日')
+})
 //挂载路由
 new Vue({
   router,

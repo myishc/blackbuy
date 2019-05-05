@@ -179,7 +179,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+// import moment from 'moment'
 export default {
   name: "index",
   data() {
@@ -205,12 +205,12 @@ export default {
     })
   },
  
-  filters: {
-    formatTime(value) {
-      // return value.split('T')[0]
-      return moment(value).format(`YYYY年MM月DD日`);
-    }
-  }
+  // filters: {
+  //   formatTime(value) {
+  //     // return value.split('T')[0]
+  //     return moment(value).format(`YYYY年MM月DD日`);
+  //   }
+  // }
 };
 </script>
 

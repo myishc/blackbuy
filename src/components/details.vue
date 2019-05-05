@@ -232,9 +232,9 @@ export default {
     })
   },
   filters: {
-    formatTime(val) {
-      return moment(val).format(`YYYY年MM月DD日`)
-    },
+    // formatTime(val) {
+    //   return moment(val).format(`YYYY年MM月DD日`)
+    // },
     formatCommentTime(val){
       return moment(val).format(`YYYY年MM月DD日HH:mm`)
     }
