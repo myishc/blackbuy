@@ -11,8 +11,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
-
-
 //导入组件
 import App from './App.vue'
 import index from './components/index.vue'
@@ -22,6 +20,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 //设置路由地址
 const routes=[
+  {path: '/', redirect: '/index'},
   {path: '/index', component: index},
   {path: '/details/:id', component: details}
 ]
@@ -30,6 +29,13 @@ const routes=[
 const router = new VueRouter({
   routes
 }) 
+//抽取通用模块到vue原型
+import axios from 'axios'
+import moment from "moment";
+Vue.prototype.$axios = axios
+Vue.prototype.$moment = moment
+//设置基地址
+axios.defaults.baseURL  = 'http://111.230.232.110:8899'
 
 //挂载路由
 new Vue({

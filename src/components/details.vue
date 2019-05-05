@@ -195,8 +195,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import moment from "moment";
+import moment from 'moment'
 export default {
   name: "details",
   data() {
@@ -211,14 +210,14 @@ export default {
   },
   methods: {
     addComment(){
-      axios.post(`http://111.230.232.110:8899/site/validate/comment/post/goods/102`)
+      this.$axios.post(`/site/validate/comment/post/goods/102`)
     }
   },
   created() {
     // console.log(this.$route.params.id);
     const id = this.$route.params.id;
-    axios
-      .get(`http://111.230.232.110:8899/site/goods/getgoodsinfo/${id}`)
+    this.$axios
+      .get(`/site/goods/getgoodsinfo/${id}`)
       .then(res => {
         // console.log(res);
         this.goodsinfo = res.data.message.goodsinfo;
@@ -226,7 +225,7 @@ export default {
         this.imglist = res.data.message.imglist;
       });
     
-    axios.get(`http://111.230.232.110:8899/site/comment/getbypage/goods/102?pageIndex=${this.pageIndex}&pageSize=5`)
+    this.$axios.get(`/site/comment/getbypage/goods/102?pageIndex=${this.pageIndex}&pageSize=5`)
     .then(res=>{
       // console.log(res);
       this.commentlist = res.data.message
